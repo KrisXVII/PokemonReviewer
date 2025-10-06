@@ -10,7 +10,7 @@ riderModule.iml
  *.aps
  
  # Rider
- .idea/
+.idea*/
  *.sln.iml
  *.csproj.iml
  *.userprefs
