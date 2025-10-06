@@ -1,0 +1,22 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+.vs/
+ Rider\.Caches/
+ appsettings.Development.json
+ *.user
+ *.aps
+ 
+ # Rider
+ .idea/
+ *.sln.iml
+ *.csproj.iml
+ *.userprefs
+ *.csproj.user
+ *.DotSettings
+ *.DotSettings.user
+ _ReSharper.Caches/
+ *.rider/
+.idea/.idea.PokemonReviewApp/.idea/
