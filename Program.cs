@@ -1,3 +1,6 @@
+using PokemonReviewApp;
+using PokemonReviewer.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add user secrets before building
@@ -10,6 +13,14 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddTransient<Seed>();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    );
+});
 
 var app = builder.Build();
 
@@ -23,5 +34,19 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// if (args.Length == 1 && args[0].ToLower() == "seeddata")
+//     SeedData(app);
+//
+// void SeedData(IHost app)
+// {
+//     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+//
+//     using (var scope = scopedFactory.CreateScope())
+//     {
+//         var service = scope.ServiceProvider.GetService<Seed>();
+//         service.SeedDataContext();
+//     }
+// }
 
 app.Run();
