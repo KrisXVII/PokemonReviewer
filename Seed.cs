@@ -1,5 +1,4 @@
 using PokemonReviewer.Data;
-using PokemonReviewer.Models;
 
 namespace PokemonReviewApp
 {
