@@ -1,5 +1,7 @@
 using PokemonReviewApp;
 using PokemonReviewer.Data;
+using PokemonReviewer.Interfaces;
+using PokemonReviewer.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
+builder.Services.AddScoped<IPokemonInterface, PokemonRepository>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(
