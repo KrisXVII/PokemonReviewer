@@ -32,7 +32,7 @@ namespace PokemonReviewer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -49,7 +49,7 @@ namespace PokemonReviewer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -64,20 +64,19 @@ namespace PokemonReviewer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Gym")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -99,7 +98,7 @@ namespace PokemonReviewer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -144,13 +143,10 @@ namespace PokemonReviewer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PokemonId")
+                    b.Property<int?>("PokemonId")
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
                     b.Property<int>("ReviewerId")
@@ -158,17 +154,15 @@ namespace PokemonReviewer.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PokemonId");
-
-                    b.HasIndex("ReviewId");
 
                     b.HasIndex("ReviewerId");
 
@@ -185,11 +179,11 @@ namespace PokemonReviewer.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -200,9 +194,7 @@ namespace PokemonReviewer.Migrations
                 {
                     b.HasOne("PokemonReviewer.Models.Country", "Country")
                         .WithMany("Owners")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
@@ -249,13 +241,7 @@ namespace PokemonReviewer.Migrations
                 {
                     b.HasOne("PokemonReviewer.Models.Pokemon", "Pokemon")
                         .WithMany("Reviews")
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PokemonReviewer.Models.Review", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ReviewId");
+                        .HasForeignKey("PokemonId");
 
                     b.HasOne("PokemonReviewer.Models.Reviewer", "Reviewer")
                         .WithMany("Reviews")
@@ -289,11 +275,6 @@ namespace PokemonReviewer.Migrations
 
                     b.Navigation("PokemonOwners");
 
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("PokemonReviewer.Models.Review", b =>
-                {
                     b.Navigation("Reviews");
                 });
 

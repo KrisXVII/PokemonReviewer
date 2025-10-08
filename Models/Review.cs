@@ -7,5 +7,5 @@ public class Review
     public required string Text { get; set; }
     public int Rating { get; set; }
     public required Reviewer Reviewer { get; set; }
-    public required Pokemon Pokemon { get; set; }
+    public Pokemon? Pokemon { get; set; }
 }

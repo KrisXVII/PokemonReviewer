@@ -4,14 +4,14 @@ namespace PokemonReviewApp
 {
     public class Seed
     {
-        private readonly DataContext dataContext;
+        private readonly DataContext _dataContext;
         public Seed(DataContext context)
         {
-            this.dataContext = context;
+            _dataContext = context;
         }
         public void SeedDataContext()
         {
-            if (!dataContext.PokemonOwners.Any())
+            if (!_dataContext.PokemonOwners.Any())
             {
                 var pokemonOwners = new List<PokemonOwner>()
                 {
@@ -23,7 +23,9 @@ namespace PokemonReviewApp
                             BirthDate = new DateTime(1903,1,1),
                             PokemonCategories = new List<PokemonCategory>()
                             {
-                                new PokemonCategory { Category = new Category() { Name = "Electric"}}
+                                new PokemonCategory { Category = new Category { Name = "Electric"},
+                                    Pokemon = new Pokemon {Name = "Torchic"}
+                                }
                             },
                             Reviews = new List<Review>()
                             {
@@ -32,7 +34,7 @@ namespace PokemonReviewApp
                                 new Review { Title="Pikachu", Text = "Pickachu is the best a killing rocks", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Taylor", LastName = "Jones" } },
                                 new Review { Title="Pikachu",Text = "Pickchu, pickachu, pikachu", Rating = 1,
-                                Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } },
+                                Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } }
                             }
                         },
                         Owner = new Owner()
@@ -54,9 +56,9 @@ namespace PokemonReviewApp
                             BirthDate = new DateTime(1903,1,1),
                             PokemonCategories = new List<PokemonCategory>()
                             {
-                                new PokemonCategory { Category = new Category() { Name = "Water"}}
+                                new PokemonCategory { Category = new Category { Name = "Water"}, Pokemon = new Pokemon{Name = "Gengar"}}
                             },
-                            Reviews = new List<Review>()
+                            Reviews = new List<Review>
                             {
                                 new Review { Title= "Squirtle", Text = "squirtle is the best pokemon, because it is electric", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Teddy", LastName = "Smith" } },
@@ -81,19 +83,19 @@ namespace PokemonReviewApp
                     {
                         Pokemon = new Pokemon()
                         {
-                            Name = "Venasuar",
+                            Name = "Venusaur",
                             BirthDate = new DateTime(1903,1,1),
                             PokemonCategories = new List<PokemonCategory>()
                             {
-                                new PokemonCategory { Category = new Category() { Name = "Leaf"}}
+                                new PokemonCategory { Category = new Category() { Name = "Leaf"}, Pokemon = _dataContext.Pokemon.Find(1)}
                             },
                             Reviews = new List<Review>()
                             {
-                                new Review { Title="Veasaur",Text = "Venasuar is the best pokemon, because it is electric", Rating = 5,
+                                new Review { Title="Venusaur",Text = "Venasuar is the best pokemon, because it is electric", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Teddy", LastName = "Smith" } },
-                                new Review { Title="Veasaur",Text = "Venasuar is the best a killing rocks", Rating = 5,
+                                new Review { Title="Venusaur",Text = "Venasuar is the best a killing rocks", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Taylor", LastName = "Jones" } },
-                                new Review { Title="Veasaur",Text = "Venasuar, Venasuar, Venasuar", Rating = 1,
+                                new Review { Title="Venusaur",Text = "Venasuar, Venasuar, Venasuar", Rating = 1,
                                 Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } },
                             }
                         },
@@ -109,8 +111,8 @@ namespace PokemonReviewApp
                         }
                     }
                 };
-                dataContext.PokemonOwners.AddRange(pokemonOwners);
-                dataContext.SaveChanges();
+                _dataContext.PokemonOwners.AddRange(pokemonOwners);
+                _dataContext.SaveChanges();
             }
         }
     }
