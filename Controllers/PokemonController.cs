@@ -5,12 +5,12 @@ namespace PokemonReviewer.Controllers;
 public class PokemonController : Controller
 {
 
-    private readonly IPokemonInterface _pokemonRepository;
+    private readonly IPokemonInterface _pokemonInterface;
     private readonly IMapper _mapper;
     
-    public PokemonController(IPokemonInterface pokemonRepository, IMapper mapper)
+    public PokemonController(IPokemonInterface pokemonInterface, IMapper mapper)
     {
-        _pokemonRepository = pokemonRepository;
+        _pokemonInterface = pokemonInterface;
         _mapper = mapper;
     }
 
@@ -18,7 +18,7 @@ public class PokemonController : Controller
     [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
     public IActionResult GetPokemon()
     {
-        var pokemons = _mapper.Map<List<PokemonDto>>(_pokemonRepository.GetPokemon());
+        var pokemons = _mapper.Map<List<PokemonDto>>(_pokemonInterface.GetPokemon());
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -31,10 +31,10 @@ public class PokemonController : Controller
     [ProducesResponseType(400)]
     public IActionResult GetPokemon(int pokeId)
     {
-        if (!_pokemonRepository.PokemonExists(pokeId))
+        if (!_pokemonInterface.PokemonExists(pokeId))
             return NotFound();
 
-        var pokemon = _mapper.Map<PokemonDto>(_pokemonRepository.GetPokemon(pokeId));
+        var pokemon = _mapper.Map<PokemonDto>(_pokemonInterface.GetPokemon(pokeId));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -47,10 +47,10 @@ public class PokemonController : Controller
     [ProducesResponseType(400)]
     public IActionResult GetPokemonRating(int pokeId)
     {
-        if (!_pokemonRepository.PokemonExists(pokeId))
+        if (!_pokemonInterface.PokemonExists(pokeId))
             return NotFound();
 
-        var pokemonRating = _pokemonRepository.GetPokemonRating(pokeId);
+        var pokemonRating = _pokemonInterface.GetPokemonRating(pokeId);
         
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
