@@ -1,4 +1,3 @@
-using PokemonReviewer.Data;
 
 namespace PokemonReviewer.Repository;
 
