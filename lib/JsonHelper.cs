@@ -9,6 +9,8 @@ public static class JsonHelper
 
     public static void Print(this object obj)
     {
-        AnsiConsole.WriteLine(ToPrettyJson(obj));
+        string json = ToPrettyJson(obj);
+        string escapedJson = json.EscapeMarkup();
+        AnsiConsole.MarkupLine($"[green]{escapedJson}[/]");
     }
 }
