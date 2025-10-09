@@ -1,4 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PokemonReviewer.Dto;
 using PokemonReviewer.Interfaces;
 
 namespace PokemonReviewer.Controllers;
@@ -9,21 +11,55 @@ public class PokemonController : Controller
 {
 
     private readonly IPokemonInterface _pokemonRepository;
+    private readonly IMapper _mapper;
     
-    public PokemonController(IPokemonInterface pokemonRepository)
+    public PokemonController(IPokemonInterface pokemonRepository, IMapper mapper)
     {
         _pokemonRepository = pokemonRepository;
+        _mapper = mapper;
     }
 
     [HttpGet]
     [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
     public IActionResult GetPokemon()
     {
-        var pokemons = _pokemonRepository.GetPokemon();
+        var pokemons = _mapper.Map<List<PokemonDto>>(_pokemonRepository.GetPokemon());
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
         return Ok(pokemons);
+    }
+
+    [HttpGet("{pokeId}")]
+    [ProducesResponseType(200, Type = typeof(Pokemon))]
+    [ProducesResponseType(400)]
+    public IActionResult GetPokemon(int pokeId)
+    {
+        if (!_pokemonRepository.PokemonExists(pokeId))
+            return NotFound();
+
+        var pokemon = _mapper.Map<PokemonDto>(_pokemonRepository.GetPokemon(pokeId));
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        return Ok(pokemon);
+    }
+
+    [HttpGet("{pokeId}/rating")]
+    [ProducesResponseType(200, Type = typeof(decimal))]
+    [ProducesResponseType(400)]
+    public IActionResult GetPokemonRating(int pokeId)
+    {
+        if (!_pokemonRepository.PokemonExists(pokeId))
+            return NotFound();
+
+        var pokemonRating = _pokemonRepository.GetPokemonRating(pokeId);
+        
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        return Ok(pokemonRating);
     }
 }
