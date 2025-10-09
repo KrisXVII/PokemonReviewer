@@ -1,8 +1,3 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PokemonReviewer.Dto;
-using PokemonReviewer.Interfaces;
-
 namespace PokemonReviewer.Controllers;
 
 [Route("api/[controller]")]
