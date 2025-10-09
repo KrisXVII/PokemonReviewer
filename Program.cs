@@ -1,6 +1,4 @@
 using PokemonReviewApp;
-using PokemonReviewer.Data;
-using PokemonReviewer.Interfaces;
 using PokemonReviewer.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
