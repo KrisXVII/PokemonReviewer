@@ -6,3 +6,4 @@ global using Microsoft.AspNetCore.Mvc;
 global using AutoMapper;
 global using PokemonReviewer.Interfaces;
 global using PokemonReviewer.Dto;
+global using PokemonReviewer.Data;

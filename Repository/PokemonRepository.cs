@@ -1,6 +1,3 @@
-using PokemonReviewer.Data;
-using PokemonReviewer.Interfaces;
-
 namespace PokemonReviewer.Repository;
 
 public class PokemonRepository : IPokemonInterface
