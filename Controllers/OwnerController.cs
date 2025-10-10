@@ -15,7 +15,7 @@ public class OwnerController : Controller
     
     [HttpGet]
     [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
-    public IActionResult GetPokemon()
+    public IActionResult GetOwners()
     {
         var owners = _mapper.Map<List<OwnerDto>>(_ownerRepository.GetOwners());
 
@@ -33,12 +33,12 @@ public class OwnerController : Controller
         if (!_ownerRepository.OwnerExists(ownerId))
             return NotFound();
 
-        var pokemon = _mapper.Map<PokemonDto>(_ownerRepository.GetOwner(ownerId));
+        var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwner(ownerId));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        return Ok(pokemon);
+        return Ok(owner);
     }
 
     [HttpGet("{ownerId}/pokemon")]
