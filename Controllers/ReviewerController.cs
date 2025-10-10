@@ -28,12 +28,12 @@ public class ReviewerController : Controller
     [HttpGet("{reviewerId}")]
     [ProducesResponseType(200, Type = typeof(Reviewer))]
     [ProducesResponseType(400)]
-    public IActionResult GetPokemon(int reviewerId)
+    public IActionResult GetReviewer(int reviewerId)
     {
         if (!_reviewerRepository.ReviewerExists(reviewerId))
             return NotFound();
 
-        var reviewer = _mapper.Map<PokemonDto>(
+        var reviewer = _mapper.Map<ReviewerDto>(
             _reviewerRepository.GetReviewer(reviewerId));
 
         if (!ModelState.IsValid)
