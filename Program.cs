@@ -17,6 +17,9 @@ builder.Services.AddTransient<Seed>();
 builder.Services.AddScoped<IPokemonInterface, PokemonRepository>();
 builder.Services.AddScoped<ICategoryInterface, CategoryRepository>();
 builder.Services.AddScoped<ICountryInterface, CountryRepository>();
+builder.Services.AddScoped<IOwnerInterface, OwnerRepository>();
+builder.Services.AddScoped<IReviewInterface, ReviewRepository>();
+builder.Services.AddScoped<IReviewerInterface, ReviewerRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<DataContext>(options =>
