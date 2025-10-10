@@ -10,7 +10,7 @@ public class MappingProfiles : Profile
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
         CreateMap<Owner, OwnerDto>().ReverseMap();
-        CreateMap<Review, ReviewDto>();
-        CreateMap<Reviewer, ReviewerDto>();
+        CreateMap<Review, ReviewDto>().ReverseMap();
+        CreateMap<Reviewer, ReviewerDto>().ReverseMap();
     }
 }

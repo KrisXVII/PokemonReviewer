@@ -29,4 +29,15 @@ public class ReviewRepository : IReviewInterface
         return _context.Reviews.Where(r => r.Pokemon.Id == pokeId).ToList();
     }
 
+    public bool CreateReview(Review review)
+    {
+        _context.Add(review);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var saved = _context.SaveChanges();
+        return saved != 0;
+    }
 }
