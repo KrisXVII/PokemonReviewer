@@ -30,4 +30,16 @@ public class ReviewerRepository : IReviewerInterface
     {
         return _context.Reviews.Where(r => r.Reviewer.Id == reviewerId).ToList();
     }
+
+    public bool CreateReviewer(Reviewer reviewer)
+    {
+        _context.Add(reviewer);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var saved = _context.SaveChanges();
+        return saved != 0;
+    }
 }
