@@ -42,7 +42,7 @@ public class CountryController : Controller
         return Ok(country);
     }
 
-    [HttpGet("/owners/{ownerId}")]
+    [HttpGet("/coutry/{ownerId}")]
     [ProducesResponseType(200, Type = typeof(Country))]
     [ProducesResponseType(400)]
     public IActionResult GetCountryOfAnOwner(int ownerId)
