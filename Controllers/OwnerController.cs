@@ -5,11 +5,13 @@ namespace PokemonReviewer.Controllers;
 public class OwnerController : Controller
 {
     private readonly IOwnerInterface _ownerRepository;
+    private readonly ICountryInterface _countryRepository;
     private readonly IMapper _mapper;
     
-    public OwnerController(IOwnerInterface ownerRepository, IMapper mapper)
+    public OwnerController(IOwnerInterface ownerRepository, ICountryInterface countryRepository, IMapper mapper)
     {
         _ownerRepository = ownerRepository;
+        _countryRepository = countryRepository;
         _mapper = mapper;
     }
     
@@ -63,7 +65,7 @@ public class OwnerController : Controller
     [HttpPost]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
-    public IActionResult CreateOwner([FromBody] OwnerDto ownerCreate)
+    public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerCreate)
     {
         if (ownerCreate == null)
             return BadRequest(ModelState);
@@ -79,8 +81,18 @@ public class OwnerController : Controller
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
+        
 
         var ownerMap = _mapper.Map<Owner>(ownerCreate);
+        var country = _countryRepository.GetCountry(countryId);
+        if (country != null)
+        {
+            ownerMap.Country = country;
+        }
+        else
+        {
+            ModelState.AddModelError("", "Country is null");
+        }
 
         if (!_ownerRepository.CreateOwner(ownerMap))
         {
