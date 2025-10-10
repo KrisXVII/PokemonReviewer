@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using PokemonReviewApp;
 using PokemonReviewer.Repository;
 
@@ -21,7 +22,8 @@ builder.Services.AddScoped<IOwnerInterface, OwnerRepository>();
 builder.Services.AddScoped<IReviewInterface, ReviewRepository>();
 builder.Services.AddScoped<IReviewerInterface, ReviewerRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(
