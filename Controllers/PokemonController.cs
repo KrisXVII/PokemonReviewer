@@ -57,4 +57,38 @@ public class PokemonController : Controller
 
         return Ok(pokemonRating);
     }
+    
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public IActionResult CreateOwner(
+        [FromQuery] int ownerId,
+        [FromQuery] int categoryId,
+        [FromBody] PokemonDto pokemonCreate)
+    {
+        if (pokemonCreate == null)
+            return BadRequest(ModelState);
+
+        var pokemon = _pokemonInterface.GetPokemon()
+            .FirstOrDefault(c => c.Name.Trim().ToUpper() == pokemonCreate.Name.TrimEnd().ToUpper());
+
+        if (pokemon != null)
+        {
+            ModelState.AddModelError("", "Owner already exists");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var pokemonMap = _mapper.Map<Pokemon>(pokemonCreate);
+        
+        if (!_pokemonInterface.CreatePokemon(ownerId, categoryId, pokemonMap));
+        {
+            ModelState.AddModelError("", "Something went wrong while saving");
+        }
+
+        return Ok("Successfully created");
+    }
+    
 }
