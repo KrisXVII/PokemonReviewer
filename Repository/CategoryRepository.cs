@@ -37,4 +37,22 @@ public class CategoryRepository : ICategoryInterface
             .Where(e => e.CategoryId == categoryId)
             .Select(c => c.Pokemon).ToList();
     }
+
+    public bool CreateCategory(Category category)
+    {
+        // Change Tracker: creating or manipulating objects this must be done
+        // add, update, modifying
+        // connected vs disconnected (uncommon)
+        // EntityState.Added
+
+        _context.Add(category);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        // Calling SaveChanges() code generates and executes SQL
+        var saved = _context.SaveChanges();
+        return saved != 0;
+    }
 }
