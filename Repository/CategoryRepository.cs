@@ -49,6 +49,12 @@ public class CategoryRepository : ICategoryInterface
         return Save();
     }
 
+    public bool UpdateCategory(Category category)
+    {
+        _context.Update(category);
+        return Save();
+    }
+
     public bool Save()
     {
         // Calling SaveChanges() code generates and executes SQL
