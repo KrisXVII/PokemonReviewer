@@ -125,7 +125,7 @@ public class OwnerController : Controller
 
         if (!_ownerRepository.UpdateOwner(ownerMap))
         {
-            ModelState.AddModelError("", "Something went wrong updating country");
+            ModelState.AddModelError("", "Something went wrong updating owner");
             return StatusCode(500, ModelState);
         }
         

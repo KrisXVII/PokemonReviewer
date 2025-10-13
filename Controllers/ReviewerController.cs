@@ -112,7 +112,7 @@ public class ReviewerController : Controller
 
         if (!_reviewerRepository.UpdateReviewer(reviewerMap))
         {
-            ModelState.AddModelError("", "Something went wrong updating country");
+            ModelState.AddModelError("", "Something went wrong updating reviewer");
             return StatusCode(500, ModelState);
         }
         

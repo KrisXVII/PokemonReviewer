@@ -114,7 +114,7 @@ public class PokemonController(
         if (pokemonRepository.UpdatePokemon(ownerId, categoryId, pokemonMap))
             return Ok(mapper.Map<CategoryDto>(pokemonMap));
         
-        ModelState.AddModelError("", "Something went wrong updating category");
+        ModelState.AddModelError("", "Something went wrong updating pokemon");
         return StatusCode(500, ModelState);    
     } 
     
