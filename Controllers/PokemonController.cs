@@ -6,7 +6,6 @@ public class PokemonController(
     IPokemonInterface pokemonRepository,
     IOwnerInterface ownerRepository,
     IReviewInterface reviewRepository,
-    
     IMapper mapper
     ) : Controller
 {
@@ -116,6 +115,30 @@ public class PokemonController(
         
         ModelState.AddModelError("", "Something went wrong updating pokemon");
         return StatusCode(500, ModelState);    
-    } 
+    }
+    
+    [HttpDelete("{pokemonId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeletePokemon(int pokemonId)
+    {
+        var pokemonToDelete = pokemonRepository.GetPokemon(pokemonId);
+        if (pokemonToDelete is null)
+            return NotFound($"Pokemon with ID {pokemonId} not found");
+
+        var reviewsToDelete = reviewRepository.GetReviewsOfAPokemon(pokemonId);
+        reviewRepository.DeleteReviews(reviewsToDelete.ToList());
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (pokemonRepository.DeletePokemon(pokemonToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Something went wrong deleting pokemon");
+        return StatusCode(500, ModelState);
+
+    }
     
 }

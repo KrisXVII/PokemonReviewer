@@ -132,4 +132,26 @@ public class OwnerController : Controller
         return Ok(_mapper.Map<OwnerDto>(ownerMap));
     }
     
+    [HttpDelete("{ownerId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeleteOwner(int ownerId)
+    {
+        
+        var ownerToDelete = _ownerRepository.GetOwner(ownerId);
+        if (ownerToDelete is null)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (_ownerRepository.DeleteOwner(ownerToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Somwthing went wrong deleting owner");
+        return StatusCode(500, ModelState);
+
+    }
+    
 }

@@ -136,4 +136,25 @@ public class ReviewController : Controller
         
         return Ok(_mapper.Map<ReviewDto>(reviewMap));
     }
+    
+    [HttpDelete("{reviewId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeleteReview(int reviewId)
+    {
+        
+        if (_reviewRepository.GetReview(reviewId) is not { } reviewToDelete)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (_reviewRepository.DeleteReview(reviewToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Something went wrong deleting review");
+        return StatusCode(500, ModelState);
+
+    }
 }

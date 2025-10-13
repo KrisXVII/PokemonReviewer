@@ -115,5 +115,27 @@ public class CountryController : Controller
         return Ok(_mapper.Map<CountryDto>(countryMap));
     }
     
+    [HttpDelete("{countryId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeleteCountry(int countryId)
+    {
+        
+        var countryToDelete = _countryRepository.GetCountry(countryId);
+        if (countryToDelete is null)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (_countryRepository.DeleteCountry(countryToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Something went wrong deleting country");
+        return StatusCode(500, ModelState);
+
+    }
+    
 }
 

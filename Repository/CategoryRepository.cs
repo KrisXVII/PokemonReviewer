@@ -55,6 +55,12 @@ public class CategoryRepository : ICategoryInterface
         return Save();
     }
 
+    public bool DeleteCategory(Category category)
+    {
+        _context.Remove(category);
+        return Save();
+    }
+
     public bool Save()
     {
         // Calling SaveChanges() code generates and executes SQL

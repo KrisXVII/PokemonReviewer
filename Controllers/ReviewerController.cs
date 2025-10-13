@@ -118,4 +118,26 @@ public class ReviewerController : Controller
         
         return Ok(_mapper.Map<ReviewerDto>(reviewerMap));
     }
+    
+    [HttpDelete("{reviewerId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeleteReviewer(int reviewerId)
+    {
+        
+        var categoryToDelete = _reviewerRepository.GetReviewer(reviewerId);
+        if (categoryToDelete is null)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (_reviewerRepository.DeleteReviewer(categoryToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Something went wrong deleting reviewer");
+        return StatusCode(500, ModelState);
+
+    }
 }

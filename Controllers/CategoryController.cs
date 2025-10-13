@@ -116,4 +116,26 @@ public class CategoryController : Controller
         
         return Ok(_mapper.Map<CategoryDto>(categoryMap));
     }
+
+    [HttpDelete("{categoryId:int}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(204)]
+    public IActionResult DeleteCategory(int categoryId)
+    {
+        
+        var categoryToDelete = _categoryRepository.GetCategory(categoryId);
+        if (categoryToDelete is null)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (_categoryRepository.DeleteCategory(categoryToDelete))
+            return NoContent();
+        
+        ModelState.AddModelError("", "Something went wrong deleting category");
+        return StatusCode(500, ModelState);
+
+    }
 }

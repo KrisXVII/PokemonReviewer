@@ -9,5 +9,7 @@ public interface IOwnerInterface
     bool OwnerExists(int ownerId);
     bool CreateOwner(Owner owner);
     bool UpdateOwner(Owner owner);
+    bool DeleteOwner(Owner owner);
+
     bool Save();
 }
