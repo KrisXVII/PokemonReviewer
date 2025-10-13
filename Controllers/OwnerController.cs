@@ -102,4 +102,34 @@ public class OwnerController : Controller
         return Ok("Successfully created");
     }
     
+    [HttpPut("{ownerId}")]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(200, Type = typeof(Owner))]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateOwner(
+        int ownerId,
+        [FromBody] OwnerDto updatedOwner
+    )
+    {
+
+        if (updatedOwner == null || ownerId != updatedOwner.Id)
+            return BadRequest(ModelState);
+
+        if (!_ownerRepository.OwnerExists(ownerId))
+            return NotFound();
+        
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var ownerMap = _mapper.Map<Owner>(updatedOwner);
+
+        if (!_ownerRepository.UpdateOwner(ownerMap))
+        {
+            ModelState.AddModelError("", "Something went wrong updating country");
+            return StatusCode(500, ModelState);
+        }
+        
+        return Ok(_mapper.Map<OwnerDto>(ownerMap));
+    }
+    
 }
